@@ -1,5 +1,4 @@
 import { Column, DataType, Model, Table, HasMany } from 'sequelize-typescript';
-import { WineTasting } from './wine-tasting.entity';
 
 @Table({ tableName: 'wine' })
 export class Wine extends Model<Wine> {
@@ -45,7 +44,6 @@ export class Wine extends Model<Wine> {
     allowNull: false,
   })
   vintage: number;
-
-  @HasMany(() => WineTasting)
-  wineTastings: WineTasting[];
 }
+
+export default Wine;

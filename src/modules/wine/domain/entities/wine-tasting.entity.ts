@@ -48,3 +48,5 @@ export class WineTasting extends Model<WineTasting> {
   @BelongsTo(() => User)
   user: User;
 }
+
+export default WineTasting;

@@ -28,3 +28,5 @@ export class User extends Model<User> {
   })
   password: string;
 }
+
+export default User;

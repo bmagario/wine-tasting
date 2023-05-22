@@ -1,20 +1,18 @@
-# Use an official Node.js runtime as the base image
+# Use a Node.js base image
 FROM node:latest
 
-# Set the working directory in the container
-WORKDIR /app
+# Set the working directory
+WORKDIR /wine-taster
 
-# Copy package.json and package-lock.json to the working directory
+# Install project dependencies
 COPY package*.json ./
-
-# Install dependencies
 RUN npm install
 
-# Copy the rest of the code to the working directory
+# Copy the source code
 COPY . .
 
-# Expose the port on which the application will run (adjust the port number if needed)
+# Expose the port
 EXPOSE 3000
 
-# Start the application
-CMD ["npm", "start"]
+# Start the application with nodemon
+CMD ["npm", "run", "start:dev"]
