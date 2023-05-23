@@ -30,7 +30,10 @@ export class WineTastingController {
     @Body() createWineTastingDto: CreateWineTastingDto,
   ) {
     const userId = 1;
-    return this.wineTastingService.createWineTasting(userId, createWineTastingDto);
+    return this.wineTastingService.createWineTasting(
+      userId,
+      createWineTastingDto,
+    );
   }
 
   @Put(':id')
@@ -40,7 +43,11 @@ export class WineTastingController {
     @Body() updateWineTastingDto: UpdateWineTastingDto,
   ) {
     const userId = 1;
-    return this.wineTastingService.updateWineTasting(userId, id, updateWineTastingDto);
+    return this.wineTastingService.updateWineTasting(
+      userId,
+      id,
+      updateWineTastingDto,
+    );
   }
 
   @Delete(':id')

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { WineTasting } from '../entities/wine-tasting.entity';
+import { WineTasting } from '../../domain/entities/wine-tasting.entity';
 
 @Injectable()
 export class WineTastingRepository {
