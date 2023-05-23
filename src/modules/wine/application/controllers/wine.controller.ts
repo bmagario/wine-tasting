@@ -7,8 +7,8 @@ import {
   Put,
   Delete,
 } from '@nestjs/common';
-import { WineService } from '../../application/wine.service';
-import { CreateWineDto, UpdateWineDto } from '../../application/dto/wine.dto';
+import { WineService } from '../wine.service';
+import { CreateWineDto, UpdateWineDto } from '../dto/wine.dto';
 
 @Controller('wines')
 export class WineController {

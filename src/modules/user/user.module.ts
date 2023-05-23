@@ -3,7 +3,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { User } from './domain/entities/user.entity';
 import { UserService } from './application/user.service';
 import { UserRepository } from './infrastructure/repositories/user.repository';
-import { UserController } from './infrastructure/controllers/user.controller';
+import { UserController } from './application/controllers/user.controller';
 import { AuthService } from '../auth/auth.service';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConfig } from '../../config/auth.config';

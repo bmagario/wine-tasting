@@ -9,11 +9,11 @@ import {
   Delete,
   Req,
 } from '@nestjs/common';
-import { WineTastingService } from '../../application/wine-tasting.service';
+import { WineTastingService } from '../wine-tasting.service';
 import {
   CreateWineTastingDto,
   UpdateWineTastingDto,
-} from '../../application/dto/wine-tasting.dto';
+} from '../dto/wine-tasting.dto';
 
 @Controller('wine-tastings')
 export class WineTastingController {
