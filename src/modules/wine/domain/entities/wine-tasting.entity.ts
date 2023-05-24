@@ -1,51 +1,28 @@
 import {
+  Entity,
+  PrimaryGeneratedColumn,
   Column,
-  DataType,
-  Model,
-  Table,
-  ForeignKey,
-  BelongsTo,
-} from 'sequelize-typescript';
+  BaseEntity,
+  ManyToOne,
+} from 'typeorm';
 import { Wine } from './wine.entity';
 import { User } from '../../../user/domain/entities/user.entity';
 
-@Table({ tableName: 'wine_tasting' })
-export class WineTasting extends Model<WineTasting> {
-  @Column({
-    primaryKey: true,
-    autoIncrement: true,
-    allowNull: false,
-  })
+@Entity({ name: 'wine_tasting' })
+export class WineTasting extends BaseEntity {
+  @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
+  @Column({ type: 'varchar', nullable: false })
   notes: string;
 
-  @Column({
-    type: DataType.TINYINT,
-    allowNull: false,
-  })
+  @Column({ type: 'tinyint', nullable: false })
   rating: number;
 
-  @ForeignKey(() => Wine)
-  @Column({
-    allowNull: false,
-  })
-  wineId: number;
-
-  @BelongsTo(() => Wine)
+  @ManyToOne(() => Wine, (wine) => wine.wineTastings, { nullable: false })
   wine: Wine;
 
-  @ForeignKey(() => User)
-  @Column({
-    allowNull: false,
-  })
-  userId: number;
-
-  @BelongsTo(() => User)
+  @ManyToOne(() => User, (user) => user.wineTastings, { nullable: false })
   user: User;
 }
 

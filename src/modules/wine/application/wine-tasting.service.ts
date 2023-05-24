@@ -1,17 +1,21 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { WineTastingRepository } from '../domain/repositories/wine-tasting.repository';
+import { WineTastingRepository } from '../infrastructure/repositories/wine-tasting.repository';
 import { WineTasting } from '../domain/entities/wine-tasting.entity';
 import {
   CreateWineTastingDto,
   UpdateWineTastingDto,
 } from './dto/wine-tasting.dto';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class WineTastingService {
-  constructor(private readonly wineTastingRepository: WineTastingRepository) {}
+  constructor(
+    @InjectRepository(WineTastingRepository)
+    private readonly wineTastingRepository: WineTastingRepository,
+  ) {}
 
   async getWineTastingById(id: number): Promise<WineTasting> {
-    const wineTasting = await this.wineTastingRepository.findById(id);
+    const wineTasting = await this.wineTastingRepository.findWineTastingById(id);
     if (!wineTasting) {
       throw new NotFoundException('Wine tasting not found');
     }
@@ -24,10 +28,10 @@ export class WineTastingService {
   ): Promise<WineTasting> {
     const { wineId, notes, rating } = createWineTastingDto;
     const wineTasting = new WineTasting();
-    wineTasting.wineId = wineId;
+    // wineTasting.wine = wineId;
     wineTasting.notes = notes;
     wineTasting.rating = rating;
-    return this.wineTastingRepository.createWineTasting(wineTasting);
+    return this.wineTastingRepository.create(wineTasting);
   }
 
   async updateWineTasting(
@@ -38,10 +42,11 @@ export class WineTastingService {
     const wineTasting = await this.getWineTastingById(id);
     wineTasting.notes = updateWineTastingDto.notes || wineTasting.notes;
     wineTasting.rating = updateWineTastingDto.rating || wineTasting.rating;
-    return this.wineTastingRepository.updateWineTasting(wineTasting);
+    await this.wineTastingRepository.updateWineTasting(id, wineTasting);
+    return this.wineTastingRepository.findWineTastingById(id);
   }
 
   async deleteWineTasting(id: number): Promise<void> {
-    await this.wineTastingRepository.deleteWineTasting(id);
+    await this.wineTastingRepository.delete(id);
   }
 }

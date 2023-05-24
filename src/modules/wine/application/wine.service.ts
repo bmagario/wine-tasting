@@ -1,14 +1,18 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { WineRepository } from '../domain/repositories/wine.repository';
+import { InjectRepository } from '@nestjs/typeorm';
+import { WineRepository } from '../infrastructure/repositories/wine.repository';
 import { Wine } from '../domain/entities/wine.entity';
 import { CreateWineDto, UpdateWineDto } from './dto/wine.dto';
 
 @Injectable()
 export class WineService {
-  constructor(private readonly wineRepository: WineRepository) {}
+  constructor(
+    @InjectRepository(WineRepository)
+    private readonly wineRepository: WineRepository,
+  ) {}
 
   async getWineById(id: number): Promise<Wine> {
-    const wine = await this.wineRepository.findById(id);
+    const wine = await this.wineRepository.findWineById(id);
     if (!wine) {
       throw new NotFoundException('Wine not found');
     }
@@ -24,7 +28,7 @@ export class WineService {
     wine.description = description;
     wine.vintage = vintage;
     wine.price = price;
-    return this.wineRepository.createWine(wine);
+    return this.wineRepository.create(wine);
   }
 
   async updateWine(id: number, updateWineDto: UpdateWineDto): Promise<Wine> {
@@ -32,11 +36,11 @@ export class WineService {
     wine.name = updateWineDto.name || wine.name;
     wine.year = updateWineDto.year || wine.year;
     wine.type = updateWineDto.type || wine.type;
-    return this.wineRepository.updateWine(wine);
+    await this.wineRepository.updateWine(id, wine);
+    return this.wineRepository.findWineById(id);
   }
 
   async deleteWine(id: number): Promise<void> {
-    const wine = await this.getWineById(id);
-    await this.wineRepository.deleteWine(id);
+    await this.wineRepository.delete(id);
   }
 }

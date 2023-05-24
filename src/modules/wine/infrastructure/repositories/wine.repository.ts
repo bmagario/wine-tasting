@@ -1,28 +1,29 @@
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/sequelize';
+import { Repository } from 'typeorm';
 import { Wine } from '../../domain/entities/wine.entity';
 
-@Injectable()
-export class WineRepository {
-  constructor(
-    @InjectModel(Wine)
-    private wineModel: typeof Wine,
-  ) {}
-
-  async findById(id: number): Promise<Wine | null> {
-    return this.wineModel.findByPk(id);
+export class WineRepository extends Repository<Wine> {
+  async createWine(wineData: Partial<Wine>): Promise<Wine> {
+    const wine = this.create(wineData);
+    return this.save(wine);
   }
 
-  async createWine(data: Partial<Wine>): Promise<Wine> {
-    return this.wineModel.create(data);
+  async findAllWines(): Promise<Wine[]> {
+    return this.find();
   }
 
-  async updateWine(data: Partial<Wine>): Promise<Wine> {
-    await this.wineModel.update(data, { where: { id: data.id } });
-    return this.wineModel.findByPk(data.id);
+  async findWineById(id: number): Promise<Wine | undefined> {
+    return this.findOne({ where: { id } });
   }
 
-  async deleteWine(id: number): Promise<number> {
-    return this.wineModel.destroy({ where: { id } });
+  async updateWine(
+    id: number,
+    wineData: Partial<Wine>,
+  ): Promise<Wine | undefined> {
+    await this.update(id, wineData);
+    return this.findOne({ where: { id } });
+  }
+
+  async deleteWine(id: number): Promise<void> {
+    await this.delete(id);
   }
 }

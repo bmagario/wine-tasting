@@ -1,32 +1,26 @@
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BaseEntity,
+  OneToMany,
+} from 'typeorm';
+import WineTasting from 'src/modules/wine/domain/entities/wine-tasting.entity';
 
-@Table({ tableName: 'user' })
-export class User extends Model<User> {
-  @Column({
-    primaryKey: true,
-    autoIncrement: true,
-    allowNull: false,
-  })
+@Entity({ name: 'user' })
+export class User extends BaseEntity {
+  @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
+  @Column({ type: 'varchar', nullable: false })
   name: string;
 
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-    unique: true,
-  })
+  @Column({ type: 'varchar', nullable: false, unique: true })
   email: string;
 
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
+  @Column({ type: 'varchar', nullable: false })
   password: string;
-}
 
-export default User;
+  @OneToMany(() => WineTasting, (wineTasting) => wineTasting.wine)
+  wineTastings: WineTasting[];
+}

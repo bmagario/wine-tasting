@@ -1,13 +1,15 @@
-import { SequelizeOptions } from 'sequelize-typescript';
+import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions';
+// import { User } from 'src/modules/user/domain/entities/user.entity';
+// import { Wine } from '../modules/wine/domain/entities/wine.entity';
+// import { WineTasting } from 'src/modules/wine/domain/entities/wine-tasting.entity';
 
-const databaseConfig: SequelizeOptions = {
-  dialect: 'mysql',
-  host: process.env.DB_HOST || 'localhost',
-  port: parseInt(process.env.DB_PORT, 10) || 3306,
-  username: process.env.DB_USERNAME || 'your_username',
-  password: process.env.DB_PASSWORD || 'your_password',
-  database: process.env.DB_DATABASE || 'wine_taster_db',
-  models: [__dirname + '/../**/*.entity{.ts,.js}'],
+export const ORMConfig: MysqlConnectionOptions = {
+  type: 'mysql',
+  host: process.env.DB_HOST,
+  port: 3306,
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
+  entities: [`${__dirname}/**/*.entity{.ts,.js}`],
+  synchronize: true,
 };
-
-export default databaseConfig;

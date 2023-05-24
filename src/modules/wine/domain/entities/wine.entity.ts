@@ -1,49 +1,37 @@
-import { Column, DataType, Model, Table, HasMany } from 'sequelize-typescript';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BaseEntity,
+  OneToMany,
+} from 'typeorm';
+import WineTasting from './wine-tasting.entity';
 
-@Table({ tableName: 'wine' })
-export class Wine extends Model<Wine> {
-  @Column({
-    primaryKey: true,
-    autoIncrement: true,
-    allowNull: false,
-  })
+@Entity({ name: 'wine' })
+export class Wine extends BaseEntity {
+  @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
+  @Column({ type: 'varchar', nullable: false })
   name: string;
 
-  @Column({
-    type: DataType.INTEGER,
-    allowNull: false,
-  })
+  @Column({ type: 'integer', nullable: false })
   year: number;
 
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
+  @Column({ type: 'varchar', nullable: false })
   description: string;
 
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
+  @Column({ type: 'varchar', nullable: false })
   type: string;
 
-  @Column({
-    type: DataType.DECIMAL(10, 2),
-    allowNull: false,
-  })
+  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: false })
   price: number;
 
-  @Column({
-    type: DataType.INTEGER,
-    allowNull: false,
-  })
+  @Column({ type: 'integer', nullable: false })
   vintage: number;
+
+  @OneToMany(() => WineTasting, (wineTasting) => wineTasting.wine)
+  wineTastings: WineTasting[];
 }
 
 export default Wine;

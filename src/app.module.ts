@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { SequelizeModule } from '@nestjs/sequelize';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ORMConfig } from './config/database.config';
+import { UserModule } from './modules/user/user.module';
 import { WineModule } from './modules/wine/wine.module';
-import databaseConfig from './config/database.config';
 
 @Module({
-  imports: [SequelizeModule.forRoot(databaseConfig), WineModule],
+  imports: [TypeOrmModule.forRoot(ORMConfig), UserModule, WineModule],
 })
 export class AppModule {}

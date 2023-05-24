@@ -1,32 +1,29 @@
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/sequelize';
+import { Repository } from 'typeorm';
 import { User } from '../../domain/entities/user.entity';
 
-@Injectable()
-export class UserRepository {
-  constructor(
-    @InjectModel(User)
-    private userModel: typeof User,
-  ) {}
-
-  async findById(id: number): Promise<User | null> {
-    return this.userModel.findByPk(id);
+export class UserRepository extends Repository<User> {
+  async createUser(wineData: Partial<User>): Promise<User> {
+    const wine = this.create(wineData);
+    return this.save(wine);
   }
 
-  async findByEmail(email: string): Promise<User | null> {
-    return this.userModel.findOne({ where: { email } });
+  async findAllUsers(): Promise<User[]> {
+    return this.find();
   }
 
-  async createUser(data: Partial<User>): Promise<User> {
-    return this.userModel.create(data);
+  async findUserById(id: number): Promise<User | undefined> {
+    return this.findOne({ where: { id } });
   }
 
-  async updateUser(data: Partial<User>): Promise<User> {
-    await this.userModel.update(data, { where: { id: data.id } });
-    return this.userModel.findByPk(data.id);
+  async updateUser(
+    id: number,
+    wineData: Partial<User>,
+  ): Promise<User | undefined> {
+    await this.update(id, wineData);
+    return this.findOne({ where: { id } });
   }
 
-  async deleteUser(id: number): Promise<number> {
-    return this.userModel.destroy({ where: { id } });
+  async deleteUser(id: number): Promise<void> {
+    await this.delete(id);
   }
 }
