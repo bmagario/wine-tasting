@@ -8,6 +8,8 @@ WORKDIR /wine-taster
 COPY package*.json ./
 RUN npm install
 
+ENV NODE_ENV development
+
 # Copy the source code
 COPY . .
 

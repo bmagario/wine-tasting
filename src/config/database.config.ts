@@ -2,7 +2,6 @@ import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOpti
 // import { User } from 'src/modules/user/domain/entities/user.entity';
 // import { Wine } from '../modules/wine/domain/entities/wine.entity';
 // import { WineTasting } from 'src/modules/wine/domain/entities/wine-tasting.entity';
-
 export const ORMConfig: MysqlConnectionOptions = {
   type: 'mysql',
   host: process.env.DB_HOST,
@@ -10,6 +9,6 @@ export const ORMConfig: MysqlConnectionOptions = {
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
-  entities: [`${__dirname}/**/*.entity{.ts,.js}`],
+  entities: [`${__dirname}/**/modules/*/domain/entities/*.entity{.ts,.js}`],
   synchronize: true,
 };
