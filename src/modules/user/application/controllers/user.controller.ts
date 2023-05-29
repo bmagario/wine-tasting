@@ -2,17 +2,22 @@ import {
   Controller,
   Get,
   Post,
-  Body,
   Put,
-  Param,
   Delete,
+  Body,
+  Param,
 } from '@nestjs/common';
-import { UserService } from '../user.service';
 import { CreateUserDto, UpdateUserDto } from '../dto/user.dto';
+import { UserService } from '../user.service';
 
-@Controller('users')
+@Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
+
+  @Get('all')
+  async getUsers() {
+    return this.userService.getUsers();
+  }
 
   @Get(':id')
   async getUser(@Param('id') id: number) {
