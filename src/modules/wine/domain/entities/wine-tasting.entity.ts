@@ -1,15 +1,9 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  BaseEntity,
-  ManyToOne,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { Wine } from './wine.entity';
 import { User } from '../../../user/domain/entities/user.entity';
 
 @Entity({ name: 'wine_tasting' })
-export class WineTasting extends BaseEntity {
+export class WineTasting {
   @PrimaryGeneratedColumn()
   id: number;
 

@@ -1,14 +1,8 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  BaseEntity,
-  OneToMany,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import WineTasting from './wine-tasting.entity';
 
 @Entity({ name: 'wine' })
-export class Wine extends BaseEntity {
+export class Wine {
   @PrimaryGeneratedColumn()
   id: number;
 

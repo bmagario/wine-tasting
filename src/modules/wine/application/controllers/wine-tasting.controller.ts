@@ -19,6 +19,11 @@ import {
 export class WineTastingController {
   constructor(private readonly wineTastingService: WineTastingService) {}
 
+  @Get(':wine_id')
+  async getWineTastings(@Param('wine_id') wineId: number) {
+    return this.wineTastingService.getWineTastingsByWineId(wineId);
+  }
+
   @Get(':id')
   async getWineTasting(@Param('id') id: number) {
     return this.wineTastingService.getWineTastingById(id);
@@ -29,6 +34,7 @@ export class WineTastingController {
     @Req() request: Request,
     @Body() createWineTastingDto: CreateWineTastingDto,
   ) {
+    // TODO: [WT-2] Get user id from token.
     const userId = 1;
     return this.wineTastingService.createWineTasting(
       userId,
@@ -42,6 +48,7 @@ export class WineTastingController {
     @Param('id') id: number,
     @Body() updateWineTastingDto: UpdateWineTastingDto,
   ) {
+    // TODO: [WT-2] Get user id from token.
     const userId = 1;
     return this.wineTastingService.updateWineTasting(
       userId,

@@ -4,6 +4,6 @@ export interface IWineRepository {
   findAll(): Promise<Wine[]>;
   findById(id: number): Promise<Wine | null>;
   create(wine: Wine): Promise<Wine>;
-  update(wine: Wine): Promise<Wine | null>;
-  delete(id: number): Promise<number>;
+  update(id: number, wine: Partial<Wine>): Promise<Wine | undefined>;
+  delete(id: number): Promise<void>;
 }

@@ -1,18 +1,20 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { plainToClass } from 'class-transformer';
 import { WineRepository } from '../infrastructure/repositories/wine.repository';
 import { Wine } from '../domain/entities/wine.entity';
 import { CreateWineDto, UpdateWineDto } from './dto/wine.dto';
 
 @Injectable()
 export class WineService {
-  constructor(
-    @InjectRepository(WineRepository)
-    private readonly wineRepository: WineRepository,
-  ) {}
+  constructor(private readonly wineRepository: WineRepository) {}
+
+  async getAllWines(): Promise<Wine[]> {
+    const wines = await this.wineRepository.findAll();
+    return wines;
+  }
 
   async getWineById(id: number): Promise<Wine> {
-    const wine = await this.wineRepository.findWineById(id);
+    const wine = await this.wineRepository.findById(id);
     if (!wine) {
       throw new NotFoundException('Wine not found');
     }
@@ -20,24 +22,19 @@ export class WineService {
   }
 
   async createWine(createWineDto: CreateWineDto): Promise<Wine> {
-    const { name, year, type, description, price, vintage } = createWineDto;
-    const wine = new Wine();
-    wine.name = name;
-    wine.year = year;
-    wine.type = type;
-    wine.description = description;
-    wine.vintage = vintage;
-    wine.price = price;
-    return this.wineRepository.create(wine);
+    const user = plainToClass(Wine, createWineDto);
+    return this.wineRepository.create(user);
   }
 
   async updateWine(id: number, updateWineDto: UpdateWineDto): Promise<Wine> {
-    const wine = await this.getWineById(id);
-    wine.name = updateWineDto.name || wine.name;
-    wine.year = updateWineDto.year || wine.year;
-    wine.type = updateWineDto.type || wine.type;
-    await this.wineRepository.updateWine(id, wine);
-    return this.wineRepository.findWineById(id);
+    const wine = await this.wineRepository.findById(id);
+    if (!wine) {
+      throw new NotFoundException('Wine  not found');
+    }
+
+    const updatedWine = plainToClass(Wine, updateWineDto);
+    this.wineRepository.update(id, updatedWine);
+    return updatedWine;
   }
 
   async deleteWine(id: number): Promise<void> {

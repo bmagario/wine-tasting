@@ -1,29 +1,33 @@
 import { Repository } from 'typeorm';
 import { Wine } from '../../domain/entities/wine.entity';
+import { IWineRepository } from '../../domain/interfaces/wine.interface';
+import { InjectRepository } from '@nestjs/typeorm';
 
-export class WineRepository extends Repository<Wine> {
-  async createWine(wineData: Partial<Wine>): Promise<Wine> {
-    const wine = this.create(wineData);
-    return this.save(wine);
+export class WineRepository implements IWineRepository {
+  constructor(
+    @InjectRepository(Wine)
+    private repository: Repository<Wine>,
+  ) {}
+
+  async create(wineData: Partial<Wine>): Promise<Wine> {
+    const wine = this.repository.create(wineData);
+    return this.repository.save(wine);
   }
 
-  async findAllWines(): Promise<Wine[]> {
-    return this.find();
+  async findAll(): Promise<Wine[]> {
+    return this.repository.find();
   }
 
-  async findWineById(id: number): Promise<Wine | undefined> {
-    return this.findOne({ where: { id } });
+  async findById(id: number): Promise<Wine | undefined> {
+    return this.repository.findOne({ where: { id } });
   }
 
-  async updateWine(
-    id: number,
-    wineData: Partial<Wine>,
-  ): Promise<Wine | undefined> {
-    await this.update(id, wineData);
-    return this.findOne({ where: { id } });
+  async update(id: number, wineData: Partial<Wine>): Promise<Wine | undefined> {
+    await this.repository.update(id, wineData);
+    return this.repository.findOne({ where: { id } });
   }
 
-  async deleteWine(id: number): Promise<void> {
-    await this.delete(id);
+  async delete(id: number): Promise<void> {
+    await this.repository.delete(id);
   }
 }
