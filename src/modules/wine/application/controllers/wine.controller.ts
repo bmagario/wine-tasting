@@ -29,7 +29,10 @@ export class WineController {
     @Param('id') id: number,
     @Body() updateWineDto: UpdateWineDto,
   ) {
-    return this.wineService.updateWine(id, updateWineDto);
+    if (id === updateWineDto.id) {
+      return this.wineService.updateWine(updateWineDto);
+    }
+    // TODO: [WT-4] Handle this error.
   }
 
   @Delete(':id')

@@ -31,6 +31,9 @@ export class CreateWineDto {
 }
 
 export class UpdateWineDto {
+  @IsInt()
+  readonly id: number;
+
   @IsString()
   @IsOptional()
   @Transform(({ value }) => value && String(value))

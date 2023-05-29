@@ -22,8 +22,9 @@ export class WineRepository implements IWineRepository {
     return this.repository.findOne({ where: { id } });
   }
 
-  async update(id: number, wineData: Partial<Wine>): Promise<Wine | undefined> {
-    await this.repository.update(id, wineData);
+  async update(wineData: Partial<Wine>): Promise<Wine | undefined> {
+    const id = wineData.id;
+    await this.repository.update(wineData.id, wineData);
     return this.repository.findOne({ where: { id } });
   }
 

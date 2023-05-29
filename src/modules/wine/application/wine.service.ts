@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
-import { WineRepository } from '../infrastructure/repositories/wine.repository';
 import { Wine } from '../domain/entities/wine.entity';
+import { WineRepository } from '../infrastructure/repositories/wine.repository';
 import { CreateWineDto, UpdateWineDto } from './dto/wine.dto';
 
 @Injectable()
@@ -26,14 +26,14 @@ export class WineService {
     return this.wineRepository.create(user);
   }
 
-  async updateWine(id: number, updateWineDto: UpdateWineDto): Promise<Wine> {
-    const wine = await this.wineRepository.findById(id);
+  async updateWine(updateWineDto: UpdateWineDto): Promise<Wine> {
+    const wine = await this.wineRepository.findById(updateWineDto.id);
     if (!wine) {
       throw new NotFoundException('Wine  not found');
     }
 
     const updatedWine = plainToClass(Wine, updateWineDto);
-    this.wineRepository.update(id, updatedWine);
+    this.wineRepository.update(updatedWine);
     return updatedWine;
   }
 

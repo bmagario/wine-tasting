@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import WineTasting from './wine-tasting.entity';
+import { IsOptional } from 'class-validator';
 
 @Entity({ name: 'wine' })
 export class Wine {
@@ -24,6 +25,7 @@ export class Wine {
   @Column({ type: 'integer', nullable: false })
   vintage: number;
 
+  @IsOptional()
   @OneToMany(() => WineTasting, (wineTasting) => wineTasting.wine)
   wineTastings: WineTasting[];
 }
