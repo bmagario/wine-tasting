@@ -5,14 +5,14 @@ import {
   CreateWineDto,
   UpdateWineDto,
 } from 'src/modules/wine/application/dto/wine.dto';
-import { WineRepository } from 'src/modules/wine/infrastructure/repositories/wine.repository';
+import { IWineRepository } from 'src/modules/wine/domain/interfaces/wine.interface';
 
 describe('WineService', () => {
   let wineService: WineService;
-  let wineRepository: WineRepository;
+  let wineRepository: IWineRepository;
 
   beforeEach(() => {
-    const wineRepositoryMock: Partial<WineRepository> = {
+    const wineRepositoryMock: Partial<IWineRepository> = {
       findAll: jest.fn(),
       findById: jest.fn(),
       create: jest.fn(),
@@ -20,7 +20,7 @@ describe('WineService', () => {
       delete: jest.fn(),
     };
 
-    wineRepository = wineRepositoryMock as WineRepository;
+    wineRepository = wineRepositoryMock as IWineRepository;
     wineService = new WineService(wineRepository);
   });
 
