@@ -1,7 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import { Wine } from '../domain/entities/wine.entity';
-import { WineRepository } from '../infrastructure/repositories/wine.repository';
 import { CreateWineDto, UpdateWineDto } from './dto/wine.dto';
 import { IWineRepository } from '../domain/interfaces/wine.interface';
 
