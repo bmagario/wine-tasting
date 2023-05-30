@@ -3,10 +3,11 @@ import { plainToClass } from 'class-transformer';
 import { Wine } from '../domain/entities/wine.entity';
 import { WineRepository } from '../infrastructure/repositories/wine.repository';
 import { CreateWineDto, UpdateWineDto } from './dto/wine.dto';
+import { IWineRepository } from '../domain/interfaces/wine.interface';
 
 @Injectable()
 export class WineService {
-  constructor(private readonly wineRepository: WineRepository) {}
+  constructor(private readonly wineRepository: IWineRepository) {}
 
   async getAllWines(): Promise<Wine[]> {
     const wines = await this.wineRepository.findAll();

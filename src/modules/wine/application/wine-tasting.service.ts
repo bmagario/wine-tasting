@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
-import { WineTastingRepository } from '../infrastructure/repositories/wine-tasting.repository';
+import { IWineTastingRepository } from '../domain/interfaces/wine-tasting.interface';
 import { WineTasting } from '../domain/entities/wine-tasting.entity';
 import {
   CreateWineTastingDto,
@@ -9,7 +9,7 @@ import {
 
 @Injectable()
 export class WineTastingService {
-  constructor(private readonly wineTastingRepository: WineTastingRepository) {}
+  constructor(private readonly wineTastingRepository: IWineTastingRepository) {}
 
   async getWineTastingsByWineId(wineId: number): Promise<WineTasting[]> {
     const wineTastings =

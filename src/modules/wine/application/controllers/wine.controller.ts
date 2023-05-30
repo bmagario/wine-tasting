@@ -10,9 +10,14 @@ import {
 import { WineService } from '../wine.service';
 import { CreateWineDto, UpdateWineDto } from '../dto/wine.dto';
 
-@Controller('wines')
+@Controller('wine')
 export class WineController {
   constructor(private readonly wineService: WineService) {}
+
+  @Get('all')
+  async getWines() {
+    return this.wineService.getAllWines();
+  }
 
   @Get(':id')
   async getWine(@Param('id') id: number) {

@@ -15,7 +15,7 @@ import {
   UpdateWineTastingDto,
 } from '../dto/wine-tasting.dto';
 
-@Controller('wine-tastings')
+@Controller('wine-tasting')
 export class WineTastingController {
   constructor(private readonly wineTastingService: WineTastingService) {}
 
